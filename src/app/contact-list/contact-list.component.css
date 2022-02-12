@@ -1,0 +1,56 @@
+.container {
+    height: 100%;
+    width: 100%;
+}
+
+.search-box {
+    height: 10%;
+    width: 100%;
+    background-color: aqua;
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.search {
+    height: 100%;
+    width: 80%;
+    background-color: blueviolet;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.add {
+    height: 100%;
+    width: 20%;
+    background-color: blue;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.list-box {
+    height: 90%;
+    width: 100%;
+    display: flex;
+    background-color: skyblue;
+}
+
+.list-item {
+    min-height: 2rem;
+    padding-left: 1rem;
+    padding-top: 1rem;
+    text-decoration: none;
+    font-size: larger;
+}
+
+.button-item {
+    width: 100%;
+}
+
+.list-item {
+    display: flex;
+    flex-wrap: row wrap;
+    justify-content: flex-start;
+    align-items: center;
+}

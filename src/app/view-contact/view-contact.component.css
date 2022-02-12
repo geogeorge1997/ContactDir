@@ -1,0 +1,27 @@
+
+.contact-details {
+    height: 90%;
+    width: 100%;
+}
+
+.button-order {
+    height: 10%;
+    width: 100%;
+    display: flex;
+    flex-wrap: row wrap;
+    justify-content: center;
+    align-items: center;
+    background-color: blueviolet;
+}
+
+.contact-card {
+    height: 100%;
+    width: 100%;
+}
+
+.form-box {
+    display: flex;
+    flex-wrap: column wrap;
+    align-items: center;
+    justify-content: center;
+}
