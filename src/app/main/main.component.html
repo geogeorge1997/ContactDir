@@ -1,8 +1,25 @@
-<div class="main-view">
+<!--
+    <div class="main-view">
     <div class="contact-list">
         <app-contact-list></app-contact-list>
     </div>
     <div class="view-contact">
+        <div class="contact-enable-btn">
+            <button type="button" class="contact-list-btn" mat-button (click)="onClick()"></button>
+        </div>
         <app-view-contact></app-view-contact>
     </div>
 </div>
+-->
+
+<mat-sidenav-container class="main-view">
+    <mat-sidenav mode ="side" [(opened)]="menuOpened">
+        <app-contact-list></app-contact-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <button type="button" class="contact-list-btn" mat-button (click)="onClick()"></button>
+        <div style="height:100%;width: 98%;padding-left: 1rem">
+            <app-view-contact></app-view-contact>
+        </div>
+    </mat-sidenav-content>
+</mat-sidenav-container>

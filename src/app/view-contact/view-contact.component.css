@@ -5,6 +5,9 @@
 }
 
 .button-order {
+    position: -webkit-sticky;
+    position: sticky;
+    bottom: 0rem;
     height: 10%;
     width: 100%;
     display: flex;
@@ -16,10 +19,11 @@
 
 .contact-card {
     height: 100%;
-    width: 100%;
+    background-color: cadetblue;
 }
 
 .form-box {
+    width: 100%;
     display: flex;
     flex-wrap: column wrap;
     align-items: center;

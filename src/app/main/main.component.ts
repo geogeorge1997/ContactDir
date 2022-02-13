@@ -7,9 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MainComponent implements OnInit {
 
+  public menuOpened =true
+
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  onClick(){
+    this.menuOpened=!this.menuOpened
   }
 
 }

@@ -7,6 +7,8 @@ import { Name } from '../interface/name';
 })
 export class MainService {
   name = new Subject<Name>()
+  readOnly = new Subject<boolean>()
+  updateValue = new Subject<boolean>()
 
   constructor() { }
 
@@ -16,5 +18,21 @@ export class MainService {
 
   setSelectedName(name:Name){
     this.name.next(name)
+  }
+
+  getReadOnlyStatus(): Observable<boolean>{
+    return this.readOnly.asObservable()
+  }
+
+  setReadOnlyStatus(readOnly:boolean){
+    this.readOnly.next(readOnly)
+  }
+
+  getUpdateStatus(): Observable<boolean>{
+    return this.updateValue.asObservable()
+  }
+
+  setUpdateStatus(readOnly:boolean){
+    this.updateValue.next(readOnly)
   }
 }
