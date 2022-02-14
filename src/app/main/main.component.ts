@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MainService } from '../service/main.service';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
   selector: 'app-main',
@@ -8,14 +10,21 @@ import { Component, OnInit } from '@angular/core';
 export class MainComponent implements OnInit {
 
   public menuOpened =true
+  deviceInfo:any;
 
-  constructor() { }
-
-  ngOnInit(): void {
+  constructor(
+    private mainService:MainService,
+    private deviceService: DeviceDetectorService) { 
+    this.deviceInfo = this.deviceService.getDeviceInfo()
+    const isMobile = this.deviceService.isMobile();
+    this.mainService.getMenuOpenedStatus().subscribe(value=>{   
+      if(isMobile){
+        this.menuOpened = value
+      }
+    })
   }
 
-  onClick(){
-    this.menuOpened=!this.menuOpened
+  ngOnInit(): void {
   }
 
 }

@@ -5,8 +5,7 @@
 }
 
 .button-order {
-    position: -webkit-sticky;
-    position: sticky;
+    position: absolute;
     bottom: 0rem;
     height: 10%;
     width: 100%;
@@ -14,18 +13,60 @@
     flex-wrap: row wrap;
     justify-content: center;
     align-items: center;
-    background-color: blueviolet;
+    background-color: cadetblue;
+    color: white;
 }
 
 .contact-card {
     height: 100%;
-    background-color: cadetblue;
+    background-color: white;
+    color: black;
 }
 
-.form-box {
+mat-card-content {
+    height: 90%;
     width: 100%;
     display: flex;
     flex-wrap: column wrap;
+    align-items: center;
+    justify-content: center;
+    color: black;
+}
+
+@media (max-width: 800px) {
+    mat-card-content {
+        height: 85%;
+    }
+  }
+
+.close-btn-align {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.close-btn {
+    background-color: cadetblue;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.orders-container {
+    /* background-color: red;*/
+    height: 100%;
+    width: 100%;
+    overflow-x: scroll;
+    overflow-y: scroll;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+
+  }
+
+.form-box{
+    display: flex;
+    flex-flow: column;
     align-items: center;
     justify-content: center;
 }

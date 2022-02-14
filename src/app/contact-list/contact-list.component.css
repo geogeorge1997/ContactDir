@@ -6,7 +6,7 @@
 .search-box {
     height: 10%;
     width: 100%;
-    background-color: aqua;
+    background-color: white;
     display: flex;
     flex-flow: row wrap;
 }
@@ -14,7 +14,8 @@
 .search {
     height: 100%;
     width: 75%;
-    background-color: blueviolet;
+    background-color: cadetblue;
+    color: white;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -23,7 +24,8 @@
 .add {
     height: 100%;
     width: 25%;
-    background-color: blue;
+    background-color: cadetblue;
+    color: white;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -33,12 +35,17 @@
     height: 90%;
     width: 100%;
     display: flex;
-    background-color: skyblue;
+    background-color: white;
 }
 
 .list-item {
+    display: flex;
+    flex-wrap: row wrap;
+    justify-content: flex-start;
+    align-items: center;
+    color: black;
     min-height: 2rem;
-    padding-left: 1rem;
+    padding-left: .5rem;
     padding-top: 1rem;
     text-decoration: none;
     font-size: larger;
@@ -48,13 +55,7 @@
     width: 100%;
 }
 
-.list-item {
-    display: flex;
-    flex-wrap: row wrap;
-    justify-content: flex-start;
-    align-items: center;
-}
-
 .example-form-field {
     width: 95%;
+    color: white;
   }

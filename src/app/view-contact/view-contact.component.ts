@@ -1,10 +1,10 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Contact } from '../interface/contact';
 import { Name } from '../interface/name';
 import { MainService } from '../service/main.service';
-import { ViewContactService } from './service/view-contact.service';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
   selector: 'app-view-contact',
@@ -14,6 +14,8 @@ import { ViewContactService } from './service/view-contact.service';
 export class ViewContactComponent implements OnInit {
 
   public readOnly:boolean = true
+  deviceInfo:any;
+  isMobile:boolean=false
 
   contactForm = new FormGroup({})
   contact:Contact={
@@ -40,57 +42,63 @@ export class ViewContactComponent implements OnInit {
     private fb: FormBuilder,
     public datepipe: DatePipe,
     private mainService:MainService,
-    private viewContactService:ViewContactService) { }
+    private deviceService: DeviceDetectorService) { }
 
   ngOnInit(): void {
-    this.contactForm = this.fb.group({
-      firstName: [''],
-      middleName: [''],
-      lastName: [''],
-      address: this.fb.group({
-        street: [''],
-        city: [''],
-        state: [''],
-        zip: ['']
-      }),
-      phoneNumber: [''],
-      emailId: ['']
-    });
 
-    this.mainService.getSelectedName().subscribe((name:Name)=>{
-      this.name=name
-      if(name!=null){
-        const contacts = localStorage.getItem('Contacts')
-        // console.log(contacts)
-        if(contacts!=null){
-          const contactLists = JSON.parse(contacts)
-          contactLists.find((m:Contact)=>{
-            if(m.id==name.id){
-              this.previousId=name.id
-              this.contactForm.setValue({
-                firstName: m.firstName,
-                middleName: m.middleName,
-                lastName: m.lastName,
-                address:{
-                  street:m.address.street,
-                  city:m.address.city,
-                  state:m.address.state,
-                  zip:m.address.zip
-                },
-                phoneNumber: m.phoneNumber,
-                emailId: m.emailId
-              })
-            }
-          })
-        }
-      }
-    })
+    this.deviceInfo = this.deviceService.getDeviceInfo()
+    this.isMobile = this.deviceService.isMobile();
+
+    this.initForm()
+    this.setForm()
 
     this.mainService.getReadOnlyStatus().subscribe(value=>{
       this.readOnly=value
       this.contactForm.reset()
-      // console.log("ggg")
-      //reset Form
+    })
+  }
+
+  initForm(){
+    this.contactForm = this.fb.group({
+      firstName: ['',[Validators.required]],
+      middleName: ['',[Validators.required]],
+      lastName: ['',[Validators.required]],
+      address: this.fb.group({
+        street: ['',[Validators.required]],
+        city: ['',[Validators.required]],
+        state: ['',[Validators.required]],
+        zip: ['',[Validators.required]]
+      }),
+      phoneNumber: ['',[Validators.required,Validators.pattern("^[0-9]*$"),
+      Validators.minLength(10), Validators.maxLength(10)]],
+      emailId: ['',[Validators.required,Validators.email]]
+    });
+  }
+
+  setForm(){
+    this.mainService.getSelectedName().subscribe((name:Name)=>{
+      this.name=name
+      if(name!=null){
+        const contactLists = this.mainService.getContactDetails()
+        contactLists.find((m:Contact)=>{
+          if(m.id==name.id){
+            this.previousId=name.id
+            this.contactForm.setValue({
+              firstName: m.firstName,
+              middleName: m.middleName,
+              lastName: m.lastName,
+              address:{
+                street:m.address.street,
+                city:m.address.city,
+                state:m.address.state,
+                zip:m.address.zip
+              },
+              phoneNumber: m.phoneNumber,
+              emailId: m.emailId
+            })
+          }
+        })
+      }
     })
   }
 
@@ -99,80 +107,82 @@ export class ViewContactComponent implements OnInit {
   }
 
   saveClicked(){
-    this.contact=this.contactForm.value
-    const id = this.contactForm.value.firstName+this.contactForm.value.middleName+this.contactForm.value.lastName
-    this.contact.id =id
 
-    const oldRecords = localStorage.getItem('Contacts')
-    this.name.firstName=this.contact.firstName
-    this.name.lastName=this.contact.lastName
-    this.name.id=id
-    const contactNames = localStorage.getItem('ContactNames')
-
-    let contactList = []
-    let contactNameList = []
-    let updateOperation = true
-    let index = null
-
-    if(oldRecords!=null && contactNames!=null){
-      contactList = JSON.parse(oldRecords)
-      contactNameList = JSON.parse(contactNames)
+    if(this.contactForm.valid){
+      this.contact=this.contactForm.value
+      const id = this.contactForm.value.firstName+this.contactForm.value.middleName+this.contactForm.value.lastName
+      this.contact.id =id
+  
+      this.name.firstName=this.contact.firstName
+      this.name.lastName=this.contact.lastName
+      this.name.id=id
+  
+      let contactDetailList = this.mainService.getContactDetails()
+      let contactNameList = this.mainService.getContactNames()
+      let updateOperation = true
+      let index = null
+  
       if(this.previousId!=this.name.id){
-        contactList.find((m:Contact)=>{
+        contactDetailList.find((m:Contact)=>{
           if(m.id==this.name.id){
             updateOperation = false
+            window.alert("User already exists")
           }
         })
       }
       if(updateOperation){
-        contactList.forEach((contact:Contact,i:number)=>{
+        contactDetailList.forEach((contact:Contact,i:number)=>{
           if(contact.id==this.previousId){
-            console.log(i)
             index=i
           }
         })
       }
+  
+      if(updateOperation){
+        this.updateRecord(contactDetailList,contactNameList,index)
+      }
+      this.mainService.setUpdateStatus(true)
     }
-    if(updateOperation){
-      this.updateRecord(contactList,contactNameList,index)
+    else{
+      window.alert("Fill the details")
     }
-    this.mainService.setUpdateStatus(true)
+    
   }
 
-  updateRecord(contactList:Contact[], contactNameList:Name[],index:any){
+  updateRecord(contactDetailList:Contact[], contactNameList:Name[],index:any){
     if(index!=null){
-      contactList.splice(index, 1);
+      contactDetailList.splice(index, 1);
       contactNameList.splice(index,1)
     }
-    contactList.push(this.contact)
+    contactDetailList.push(this.contact)
     contactNameList.push(this.name)
-    localStorage.setItem('Contacts',JSON.stringify(contactList))
-    localStorage.setItem('ContactNames',JSON.stringify(contactNameList))
+
+    this.mainService.setContactDetails(contactDetailList)
+    this.mainService.setContactNames(contactNameList)
   }
 
   deleteClicked(){
-    let contactList = []
-    let contactNameList = []
     let index = null
-    const oldRecords = localStorage.getItem('Contacts')
-    const contactNames = localStorage.getItem('ContactNames')
-    if(oldRecords!=null && contactNames!=null){
-      contactList = JSON.parse(oldRecords)
-      contactNameList = JSON.parse(contactNames)
-    }
-    contactList.forEach((contact:Contact,i:number)=>{
+    let contactDetailList = this.mainService.getContactDetails()
+    let contactNameList = this.mainService.getContactNames()
+
+    contactDetailList.forEach((contact:Contact,i:number)=>{
       if(contact.id==this.previousId){
         index = i
       }
     })
 
     if(index!=null){
-      contactList.splice(index, 1);
+      contactDetailList.splice(index, 1);
       contactNameList.splice(index,1)
-      localStorage.setItem('Contacts',JSON.stringify(contactList))
-      localStorage.setItem('ContactNames',JSON.stringify(contactNameList))
+      this.mainService.setContactDetails(contactDetailList)
+      this.mainService.setContactNames(contactNameList)
     }
     this.mainService.setUpdateStatus(true)
+    this.contactForm.reset()
   }
 
+  onClick(){
+    this.mainService.setMenuOpenedStatus(true)
+  }
 }

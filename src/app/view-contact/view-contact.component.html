@@ -2,64 +2,73 @@
 <div class="contact-details">
 
     <mat-card class="contact-card">
+        <div *ngIf="isMobile" class="close-btn-align">
+            <button type="button" class="close-btn" mat-button (click)="onClick()">
+                <mat-icon>clear</mat-icon>
+        </button>
+        </div>
         <mat-card-header style="display: flex;align-items: center;justify-content: center;padding: 1rem;">
           <mat-card-title>Contact Directory</mat-card-title>
         </mat-card-header>
-        <mat-card-content class="form-box">
-            <form [formGroup]="contactForm">
+        
+        <mat-card-content>
 
-                <mat-form-field appearance="legacy">
-                    <mat-label>First Name</mat-label>
-                    <input matInput placeholder="Placeholder" formControlName="firstName" [readonly]="readOnly">
-                </mat-form-field><br>
-
-                <mat-form-field appearance="legacy">
-                    <mat-label>Middle Name</mat-label>
-                    <input matInput placeholder="Placeholder" formControlName="middleName" [readonly]="readOnly">
-                </mat-form-field><br>
-
-                <mat-form-field appearance="legacy">
-                    <mat-label>Last Name</mat-label>
-                    <input matInput placeholder="Placeholder" formControlName="lastName" [readonly]="readOnly">
-                </mat-form-field><br>
-
-                <div formGroupName="address">
-                    <h3>Address</h3>
+            <cdk-virtual-scroll-viewport [itemSize]="1" class="orders-container">
+                <form [formGroup]="contactForm" class="form-box">
 
                     <mat-form-field appearance="legacy">
-                        <mat-label>Street</mat-label>
-                        <input matInput placeholder="Placeholder" formControlName="street" [readonly]="readOnly">
+                        <mat-label>First Name</mat-label>
+                        <input matInput placeholder="Placeholder" formControlName="firstName" [readonly]="readOnly">
+                    </mat-form-field><br>
+    
+                    <mat-form-field appearance="legacy">
+                        <mat-label>Middle Name</mat-label>
+                        <input matInput placeholder="Placeholder" formControlName="middleName" [readonly]="readOnly">
+                    </mat-form-field><br>
+    
+                    <mat-form-field appearance="legacy">
+                        <mat-label>Last Name</mat-label>
+                        <input matInput placeholder="Placeholder" formControlName="lastName" [readonly]="readOnly">
+                    </mat-form-field><br>
+    
+                    <div formGroupName="address">
+                        <h3>Address</h3>
+    
+                        <mat-form-field appearance="legacy">
+                            <mat-label>Street</mat-label>
+                            <input matInput placeholder="Placeholder" formControlName="street" [readonly]="readOnly">
+                        </mat-form-field><br>
+                      
+                        <mat-form-field appearance="legacy">
+                            <mat-label>City</mat-label>
+                            <input matInput placeholder="Placeholder" formControlName="city" [readonly]="readOnly">
+                        </mat-form-field><br>
+    
+                        <mat-form-field appearance="legacy">
+                            <mat-label>State</mat-label>
+                            <input matInput placeholder="Placeholder" formControlName="state" [readonly]="readOnly">
+                        </mat-form-field><br>
+    
+                        <mat-form-field appearance="legacy">
+                            <mat-label>Zip Code</mat-label>
+                            <input matInput placeholder="Placeholder" formControlName="zip" [readonly]="readOnly">
+                        </mat-form-field><br>
+    
+                    </div>
+    
+                    <mat-form-field appearance="legacy">
+                        <mat-label>Phone Number</mat-label>
+                        <input matInput placeholder="Placeholder" formControlName="phoneNumber" [readonly]="readOnly">
+                    </mat-form-field><br>
+    
+                    <mat-form-field appearance="legacy">
+                        <mat-label>Email Id</mat-label>
+                        <input matInput placeholder="Placeholder" formControlName="emailId" [readonly]="readOnly">
                     </mat-form-field><br>
                   
-                    <mat-form-field appearance="legacy">
-                        <mat-label>City</mat-label>
-                        <input matInput placeholder="Placeholder" formControlName="city" [readonly]="readOnly">
-                    </mat-form-field><br>
-
-                    <mat-form-field appearance="legacy">
-                        <mat-label>State</mat-label>
-                        <input matInput placeholder="Placeholder" formControlName="state" [readonly]="readOnly">
-                    </mat-form-field><br>
-
-                    <mat-form-field appearance="legacy">
-                        <mat-label>Zip Code</mat-label>
-                        <input matInput placeholder="Placeholder" formControlName="zip" [readonly]="readOnly">
-                    </mat-form-field><br>
-
-                </div>
-
-                <mat-form-field appearance="legacy">
-                    <mat-label>Phone Number</mat-label>
-                    <input matInput placeholder="Placeholder" formControlName="phoneNumber" [readonly]="readOnly">
-                </mat-form-field><br>
-
-                <mat-form-field appearance="legacy">
-                    <mat-label>Email Id</mat-label>
-                    <input matInput placeholder="Placeholder" formControlName="emailId" [readonly]="readOnly">
-                </mat-form-field><br>
-              
-              </form>
-          
+                  </form>
+            </cdk-virtual-scroll-viewport>
+            
         </mat-card-content>
       </mat-card>
 

@@ -11,7 +11,7 @@ mat-sidenav {
 
 @media (max-width: 800px) {
     mat-sidenav {
-      width: 90%;
+      width: 100%;
     }
   }
 
