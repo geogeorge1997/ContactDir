@@ -16,7 +16,7 @@
     </div>
 </div>
 <cdk-virtual-scroll-viewport [itemSize]="1" class ="list-box">  
-    <div *cdkVirtualFor = "let name of displayNames ; let index =index" >       
+    <div *cdkVirtualFor = "let name of displayNames | sort:'asc':'id' ; let index =index" >       
         <button mat-button class="button-item" (click)="contactClicked(name,index)">
             <div class="list-item">
                 {{name.firstName}} {{name.lastName}}

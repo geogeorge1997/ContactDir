@@ -11,6 +11,7 @@ import { MainComponent } from './main/main.component';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { DatePipe } from '@angular/common';
+import { SortPipe } from './pipe/sort.pipe';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { DatePipe } from '@angular/common';
     ContactListComponent,
     ViewContactComponent,
     MainComponent,
+    SortPipe,
 
   ],
   imports: [
@@ -28,7 +30,7 @@ import { DatePipe } from '@angular/common';
     FormsModule,
     ReactiveFormsModule,
   ],
-  providers: [DatePipe],
+  providers: [DatePipe,SortPipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

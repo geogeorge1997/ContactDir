@@ -54,6 +54,7 @@ export class ViewContactComponent implements OnInit {
 
     this.mainService.getReadOnlyStatus().subscribe(value=>{
       this.readOnly=value
+      this.previousId=''
       this.contactForm.reset()
     })
   }
